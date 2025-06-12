@@ -22,6 +22,15 @@ PrettySQL 是一款基于 IntelliJ IDEA 的轻量级插件，致力于提升 SQL
 
 ### 2.1 引入PrettySQL插件
 
+在 IntelliJ IDEA 中打开插件市场，搜索 "PrettySQL" 并安装。
+
+1.选择xml文件里的sql语句右键格式化SQL即可
+
+2.鼠标放到要查看表结构的表名称,悬浮等待3秒即可出现
+
+<img src="https://znunwm.top/upload/2025/06/0bd6f2af-fb94-4b1e-bf83-490528dfe017.png" width = "230" height="300" style="float:left; margin: 15px;"/>
+
+<img src="https://znunwm.top/upload/2025/06/b66187c2-df51-45d8-84ce-4e83d997c65f.png" width = "230" height="300" style="float:left; margin: 15px;"/>
 
 如果您觉得这个项目对您有帮助，可以帮作者买杯饮料鼓励鼓励!
 
