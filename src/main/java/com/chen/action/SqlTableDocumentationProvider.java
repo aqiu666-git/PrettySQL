@@ -144,7 +144,6 @@ public class SqlTableDocumentationProvider implements DocumentationProvider {
                 String url = String.valueOf(datasource.get("url"));
                 String username = String.valueOf(datasource.get("username"));
                 String password = String.valueOf(datasource.get("username"));
-                System.out.println(password);
 
                 if (StringUtils.notBlankAndNotNullStr(url) && StringUtils.notBlankAndNotNullStr(username)) {
                     dbConfig = new DbConfig(url, username, password);
