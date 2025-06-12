@@ -28,15 +28,18 @@ PrettySQL 是一款基于 IntelliJ IDEA 的轻量级插件，致力于提升 SQL
 
 2.鼠标放到要查看表结构的表名称,悬浮等待3秒即可出现
 
-<img src="https://znunwm.top/upload/2025/06/0bd6f2af-fb94-4b1e-bf83-490528dfe017.png" width = "230" height="300" style="float:left; margin: 15px;"/>
+<div style="display: flex; gap: 15px; align-items: flex-start;">
+  <img src="https://znunwm.top/upload/2025/06/0bd6f2af-fb94-4b1e-bf83-490528dfe017.png" width="230" height="300" />
+  <img src="https://znunwm.top/upload/2025/06/b66187c2-df51-45d8-84ce-4e83d997c65f.png" width="230" height="300" />
+</div>
 
-<img src="https://znunwm.top/upload/2025/06/b66187c2-df51-45d8-84ce-4e83d997c65f.png" width = "230" height="300" style="float:left; margin: 15px;"/>
 
 如果您觉得这个项目对您有帮助，可以帮作者买杯饮料鼓励鼓励!
 
-<img src="https://znunwm.top/upload/2023/04/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20230402163414.jpg" width = "230" height="300" style="float:left; margin: 15px;"/>
-
-<img src="https://znunwm.top/upload/2023/04/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20230402161550.jpg" width = "230" height="300" style="float:left; margin-left: 35px; display: inline;"/>
+<div style="display: flex; gap: 15px; align-items: flex-start; margin-top: 20px;">
+  <img src="https://znunwm.top/upload/2023/04/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20230402163414.jpg" width="230" height="300" />
+  <img src="https://znunwm.top/upload/2023/04/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20230402161550.jpg" width="230" height="300" />
+</div>
 
 
 # 作者信息
