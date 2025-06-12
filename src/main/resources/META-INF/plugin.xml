@@ -1,0 +1,38 @@
+<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
+<idea-plugin>
+    <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
+    <id>com.chen.PrettySQL</id>
+
+    <!-- Public plugin name should be written in Title Case.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
+    <name>PrettySQL</name>
+
+    <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
+    <vendor email="2766694258@qq.com" url="https://znunwm.top"></vendor>
+    <idea-version since-build="231" until-build="241.*"/>
+    <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
+         Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
+    <description>PrettySQL 是一个用于格式化 SQL 语句的插件，支持多种数据库方言（如 MySQL、Oracle、PostgreSQL），一键美化，使 SQL 更易读。
+        适用于数据库开发人员、后端工程师和数据分析师，提升 SQL 代码可读性。</description>
+
+    <!-- Product and plugin compatibility requirements.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
+    <depends>com.intellij.modules.platform</depends>
+
+    <!-- Extension points defined by the plugin.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
+    <extensions defaultExtensionNs="com.intellij">
+
+    </extensions>
+    <actions>
+        <action id="FormatSqlAction"
+                class="com.chen.showProjectName"
+                text="格式化 SQL"
+                description="使用格式化工具优化 SQL 排版">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt F"/>
+        </action>
+    </actions>
+
+</idea-plugin>
