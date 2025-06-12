@@ -3,6 +3,7 @@ package com.chen.action;
 import com.chen.entity.ColumnMeta;
 import com.chen.entity.DbConfig;
 import com.chen.utils.JdbcTableInfoUtil;
+import com.chen.utils.StringUtils;
 import com.intellij.lang.documentation.DocumentationProvider;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
@@ -35,18 +36,18 @@ public class SqlTableDocumentationProvider implements DocumentationProvider {
 
         DbConfig dbConfig = tryLoadDbConfig(element.getProject());
         if (dbConfig == null) {
-            return "<b>表名：</b> " + tableName + "<br>未找到数据库连接配置。";
+            return "<b>异常信息：</b> " + tableName + "<br>未找到数据库连接配置。";
         }
 
         List<ColumnMeta> columns;
         try {
             columns = JdbcTableInfoUtil.getTableColumns(dbConfig, tableName);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
+        } catch (Exception e) {
+            return "<b>异常信息：</b> " + tableName + e.getMessage();
         }
 
         if (columns == null || columns.isEmpty()) {
-            return "<b>表名：</b> " + tableName + "<br>未在数据库中找到该表结构或表无字段。";
+            return "<b>异常信息：</b> " + tableName + "<br>未在数据库中找到该表结构或表无字段。";
         }
 
         return buildHtmlTable(tableName, columns);
@@ -117,49 +118,63 @@ public class SqlTableDocumentationProvider implements DocumentationProvider {
         return text;
     }
 
+
     /**
-     * 从项目目录中查找 YAML 配置并解析数据库连接参数
+     * 从项目目录中查找 YAML 配置并解析数据库连接参数，支持 spring.datasource 与 druid.master 配置
      */
     private DbConfig tryLoadDbConfig(Project project) {
         List<File> ymlFiles = findAllYmlFiles(new File(project.getBasePath()));
+        DbConfig dbConfig = null;
+
         for (File yml : ymlFiles) {
             try (InputStream input = new FileInputStream(yml)) {
                 Yaml yaml = new Yaml();
                 Map<String, Object> data = yaml.load(input);
+                if (data == null) continue;
+
                 @SuppressWarnings("unchecked")
                 Map<String, Object> spring = (Map<String, Object>) data.get("spring");
                 if (spring == null) continue;
+
                 @SuppressWarnings("unchecked")
                 Map<String, Object> datasource = (Map<String, Object>) spring.get("datasource");
                 if (datasource == null) continue;
 
-                // 普通连接配置
-                String url = (String) datasource.get("url");
-                String username = (String) datasource.get("username");
-                String password = (String) datasource.get("password");
-                if (url != null && username != null) {
-                    return new DbConfig(url, username, password);
+                // 第一优先：spring.datasource 配置
+                String url = String.valueOf(datasource.get("url"));
+                String username = String.valueOf(datasource.get("username"));
+                String password = String.valueOf(datasource.get("username"));
+                System.out.println(password);
+
+                if (StringUtils.notBlankAndNotNullStr(url) && StringUtils.notBlankAndNotNullStr(username)) {
+                    dbConfig = new DbConfig(url, username, password);
+                    break;
                 }
 
-                // 支持 druid.master 配置
+                // 第二优先：druid.master 配置
                 @SuppressWarnings("unchecked")
                 Map<String, Object> druid = (Map<String, Object>) datasource.get("druid");
                 if (druid == null) continue;
+
                 @SuppressWarnings("unchecked")
                 Map<String, Object> master = (Map<String, Object>) druid.get("master");
                 if (master == null) continue;
 
-                url = (String) master.get("url");
-                username = (String) master.get("username");
-                password = (String) master.get("password");
-                if (url != null && username != null) {
-                    return new DbConfig(url, username, password);
+                url = String.valueOf(master.get("url"));
+                username = String.valueOf(master.get("username"));
+                password = String.valueOf(master.get("password"));
+
+                if (StringUtils.notBlankAndNotNullStr(url) && StringUtils.notBlankAndNotNullStr(username)) {
+                    dbConfig = new DbConfig(url, username, password);
+                    break;
                 }
             } catch (Exception ignored) {
             }
         }
-        return null;
+
+        return dbConfig;
     }
+
 
     /**
      * 递归查找所有 application*.yml 配置文件（仅限 src/main/resources）

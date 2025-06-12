@@ -32,7 +32,7 @@ public class JdbcTableInfoUtil {
      * @return 字段元数据列表（ColumnMeta）
      * @throws ClassNotFoundException 如果 JDBC 驱动未加载
      */
-    public static List<ColumnMeta> getTableColumns(DbConfig dbConfig, String tableName) throws ClassNotFoundException {
+    public static List<ColumnMeta> getTableColumns(DbConfig dbConfig, String tableName) throws Exception {
         // 加载 MySQL JDBC 驱动
         Class.forName("com.mysql.cj.jdbc.Driver");
 
@@ -81,9 +81,6 @@ public class JdbcTableInfoUtil {
 
             return columns;
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
         }
     }
 }
