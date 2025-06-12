@@ -1,4 +1,4 @@
-# czh-tool 快速开发框架工具
+# PrettySQL多功能插件
 
 
 # [文档中心](http://czh.znunwm.top)
@@ -18,9 +18,9 @@ PrettySQL 是一款基于 IntelliJ IDEA 的轻量级插件，致力于提升 SQL
 - SQL执行计划分析
 
 更多功能，请到[文档中心](http://czh.znunwm.top)的项目主页进行了解。
-## 2. 快速入门  (仅支持SprinBoot2x版本不支持3x版本)
 
-### 3.1 引入PrettySQL插件
+
+### 2.1 引入PrettySQL插件
 
 
 如果您觉得这个项目对您有帮助，可以帮作者买杯饮料鼓励鼓励!
