@@ -1,4 +1,4 @@
-package com.chen;
+package com.chen.utils;
 
 
 import com.github.vertical_blank.sqlformatter.SqlFormatter;
@@ -14,7 +14,7 @@ public class SqlFormatUtil {
         try {
             return SqlFormatter.of("mysql").format(sql);
         } catch (Exception e) {
-            return sql; // 失败就返回原文
+            return sql;
         }
     }
 }

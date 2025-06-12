@@ -1,0 +1,40 @@
+# czh-tool 快速开发框架工具
+
+
+# [文档中心](http://czh.znunwm.top)
+### 介绍
+PrettySQL 是一款基于 IntelliJ IDEA 的轻量级插件，致力于提升 SQL 开发体验，集成了 SQL 格式美化、高亮表结构提示、数据库文档快速查看等功能，为日常开发中频繁处理 SQL 的用户提供便捷、清晰、可视化的开发辅助。
+
+```
+ 项目基本保持每日更新，右上随手点个 🌟 Star 关注，这样才有持续下去的动力，谢谢～
+
+```
+# 功能列表
+- SQL语句格式美化
+- 表结构悬浮提示
+- 自定义样式和主题支持
+- 一键生成实体类
+- SQL执行计划分析
+
+更多功能，请到[文档中心](http://czh.znunwm.top)的项目主页进行了解。
+## 2. 快速入门  (仅支持SprinBoot2x版本不支持3x版本)
+
+### 3.1 引入PrettySQL插件
+
+
+如果您觉得这个项目对您有帮助，可以帮作者买杯饮料鼓励鼓励!
+
+<img src="https://znunwm.top/upload/2023/04/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20230402163414.jpg" width = "230" height="300" style="float:left; margin: 15px;"/>
+
+<img src="https://znunwm.top/upload/2023/04/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20230402161550.jpg" width = "230" height="300" style="float:left; margin-left: 35px; display: inline;"/>
+
+
+# 作者信息
+
+- 作者：陈思源(WP)
+- 就点点🌟 Star 🌟 关注更新，支持下作者就可以了
+
+
+
+
+
