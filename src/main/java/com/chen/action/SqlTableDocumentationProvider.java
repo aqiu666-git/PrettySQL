@@ -327,7 +327,7 @@ public class SqlTableDocumentationProvider implements DocumentationProvider {
      * @param project 当前项目
      * @return 配置对象，读取失败或文件不存在返回 null
      */
-    private static DbConfig loadFromCache(Project project) {
+    public static DbConfig loadFromCache(Project project) {
         try {
             Path path = Paths.get(project.getBasePath(), CONFIG_PATH);
             if (!Files.exists(path)) return null;

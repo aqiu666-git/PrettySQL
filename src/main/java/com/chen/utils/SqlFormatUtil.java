@@ -10,9 +10,9 @@ import com.github.vertical_blank.sqlformatter.SqlFormatter;
  * @date 2025/6/12 8:28
  */
 public class SqlFormatUtil {
-    public static String formatSql(String sql) {
+    public static String formatSql(String sql, String dialect) {
         try {
-            return SqlFormatter.of("mysql").format(sql);
+            return SqlFormatter.of(dialect).format(sql);
         } catch (Exception e) {
             return sql;
         }

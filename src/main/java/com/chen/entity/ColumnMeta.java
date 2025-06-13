@@ -23,6 +23,9 @@ public class ColumnMeta {
     // 字段备注（注释）
     private String remark;
 
+    public ColumnMeta() {
+    }
+
     /**
      * 构造方法，初始化字段元数据
      *

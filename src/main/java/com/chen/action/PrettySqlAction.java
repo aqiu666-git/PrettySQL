@@ -1,5 +1,6 @@
 package com.chen.action;
 
+import com.chen.entity.DbConfig;
 import com.chen.utils.SqlFormatUtil;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
@@ -13,6 +14,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
+
+import static com.chen.action.SqlTableDocumentationProvider.loadFromCache;
 
 /**
  * SQL 格式化操作类
@@ -40,9 +43,9 @@ public class PrettySqlAction extends AnAction {
         SelectionModel selectionModel = editor.getSelectionModel();
         String selectedText = selectionModel.getSelectedText();
         if (selectedText == null || selectedText.isEmpty()) return;
-
+        DbConfig dbConfig = loadFromCache(e.getProject());
         // 使用工具类格式化 SQL 文本
-        String formattedSql = SqlFormatUtil.formatSql(selectedText);
+        String formattedSql = SqlFormatUtil.formatSql(selectedText,dbConfig.getUrl().replaceFirst("^jdbc:(\\w+):.*", "$1"));
 
         // 设置缩进（这里是 11 个空格）
         String indent = "           ";

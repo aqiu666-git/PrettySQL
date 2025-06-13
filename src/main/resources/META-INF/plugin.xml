@@ -28,12 +28,19 @@ PrettySQL is an IntelliJ plugin that beautifies and formats SQL queries automati
         <documentationProvider language="XML" implementationClass="com.chen.action.SqlTableDocumentationProvider"/>
     </extensions>
     <actions>
-        <action id="FormatSqlAction"
+        <action id="PrettySqlAction"
                 class="com.chen.action.PrettySqlAction"
                 text="格式化 SQL"
                 description="使用格式化工具优化 SQL 排版">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
-            <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt F"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt H"/>
+        </action>
+        <action id="CheckSqlAction"
+                class="com.chen.action.CheckSqlAction"
+                text="SQL检查"
+                description="检查SQL语句">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt G"/>
         </action>
     </actions>
 
