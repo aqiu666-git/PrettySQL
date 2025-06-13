@@ -83,4 +83,24 @@ public class JdbcTableInfoUtil {
 
         }
     }
+    /**
+     * 检查数据库连接是否有效
+     *
+     * @param dbConfig 数据库连接配置
+     * @return true 表示连接成功，false 表示连接失败
+     */
+    public static boolean testConnection(DbConfig dbConfig) {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            try (Connection conn = DriverManager.getConnection(
+                    dbConfig.getUrl(),
+                    dbConfig.getUsername(),
+                    dbConfig.getPassword())) {
+                return conn != null && !conn.isClosed();
+            }
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
 }

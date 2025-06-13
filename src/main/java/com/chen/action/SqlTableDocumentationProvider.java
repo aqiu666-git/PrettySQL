@@ -4,19 +4,34 @@ import com.chen.entity.ColumnMeta;
 import com.chen.entity.DbConfig;
 import com.chen.utils.JdbcTableInfoUtil;
 import com.chen.utils.StringUtils;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.intellij.lang.documentation.DocumentationProvider;
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.ui.Messages;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.xml.XmlText;
 import com.intellij.psi.xml.XmlToken;
 import org.jetbrains.annotations.Nullable;
 import org.yaml.snakeyaml.Yaml;
+
+import javax.swing.*;
+import java.awt.*;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
+import java.util.List;
+import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static com.chen.constant.FileConstant.CONFIG_PATH;
 
 /**
  * SQL 表结构文档展示提供器：支持在 IntelliJ 中对 SQL 中的表名悬停显示结构
@@ -24,6 +39,8 @@ import java.util.regex.Pattern;
  */
 public class SqlTableDocumentationProvider implements DocumentationProvider {
 
+
+    private static final ObjectMapper objectMapper = new ObjectMapper();
     /**
      * 悬停展示文档：从 PSI 中识别表名，读取数据库连接并生成 HTML 表格
      */
@@ -35,9 +52,24 @@ public class SqlTableDocumentationProvider implements DocumentationProvider {
         }
 
         DbConfig dbConfig = tryLoadDbConfig(element.getProject());
+
         if (dbConfig == null) {
-            return "<b>异常信息：</b> " + tableName + "<br>未找到数据库连接配置。";
+            dbConfig = loadFromCache(element.getProject());
+            if (dbConfig == null) {
+                promptUserInput(element.getProject(), config -> {
+                    if (saveToCache(element.getProject(), config)){
+                        Path path = Paths.get(element.getProject().getBasePath(), CONFIG_PATH);
+                        Messages.showInfoMessage(
+                                "数据库配置已保存到路径：\n" + path.toString() + "\n请重新将鼠标悬停以查看表结构。",
+                                "配置成功"
+                        );
+                    }
+
+                });
+            }
+
         }
+
 
         List<ColumnMeta> columns;
         try {
@@ -206,5 +238,104 @@ public class SqlTableDocumentationProvider implements DocumentationProvider {
                 file.getParentFile().getPath().replace("\\", "/").endsWith("src/main/resources");
     }
 
+
+    /**
+     * 弹出同步阻塞输入框，直到用户输入完整数据库 URL 和用户名或取消
+     *
+     * @param project  当前项目
+     * @param callback 用户输入完成回调
+     */
+    private static void promptUserInput(Project project, Consumer<DbConfig> callback) {
+        ApplicationManager.getApplication().invokeLater(() -> {
+            JTextField urlField = new JTextField("jdbc:mysql://127.0.0.1:3306/db?useSSL=false&useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&useInformationSchema=false");
+            JTextField usernameField = new JTextField();
+            JPasswordField passwordField = new JPasswordField();
+
+            JPanel panel = new JPanel(new GridLayout(0, 1));
+            panel.add(new JLabel("数据库 URL:"));
+            panel.add(urlField);
+            panel.add(new JLabel("用户名:"));
+            panel.add(usernameField);
+            panel.add(new JLabel("密码:"));
+            panel.add(passwordField);
+
+            while (true) {
+                int result = JOptionPane.showConfirmDialog(
+                        null,
+                        panel,
+                        "请输入数据库配置",
+                        JOptionPane.OK_CANCEL_OPTION,
+                        JOptionPane.PLAIN_MESSAGE
+                );
+
+                if (result != JOptionPane.OK_OPTION) {
+                    break;
+                }
+
+                String url = urlField.getText().trim();
+                String username = usernameField.getText().trim();
+                String password = new String(passwordField.getPassword()).trim();
+
+                List<String> errorList = new ArrayList<>();
+                if (!StringUtils.notBlankAndNotNullStr(url)) {
+                    errorList.add("数据库 URL");
+                }
+                if (!StringUtils.notBlankAndNotNullStr(username)) {
+                    errorList.add("用户名");
+                }
+
+                if (errorList.isEmpty()) {
+                    callback.accept(new DbConfig(url, username, password));
+                    break;
+                } else {
+                    Messages.showErrorDialog(project,
+                            "以下字段不能为空：\n" + String.join("、", errorList),
+                            "输入不完整");
+                }
+            }
+        });
+    }
+
+
+
+    /**
+     * 保存数据库配置到缓存文件，写成 JSON 格式，并测试数据库连接有效性
+     *
+     * @param project 当前项目
+     * @param config  数据库配置对象
+     */
+    private static boolean saveToCache(Project project, DbConfig config) {
+        try {
+            boolean check = JdbcTableInfoUtil.testConnection(config);
+            if (!check){
+                Messages.showErrorDialog(project, "数据库连接测试失败，请检查配置是否正确。", "连接失败");
+                return false;
+            }
+            Path path = Paths.get(project.getBasePath(), CONFIG_PATH);
+            Files.createDirectories(path.getParent());
+            String json = objectMapper.writeValueAsString(config);
+            Files.writeString(path, json, StandardCharsets.UTF_8);
+        } catch (IOException ignored) {}
+        return true;
+    }
+
+
+    /**
+     * 从缓存文件中读取数据库配置（JSON格式）
+     *
+     * @param project 当前项目
+     * @return 配置对象，读取失败或文件不存在返回 null
+     */
+    private static DbConfig loadFromCache(Project project) {
+        try {
+            Path path = Paths.get(project.getBasePath(), CONFIG_PATH);
+            if (!Files.exists(path)) return null;
+            String json = Files.readString(path, StandardCharsets.UTF_8);
+            return objectMapper.readValue(json, DbConfig.class);
+        } catch (Exception ignored) {
+            ignored.printStackTrace();
+        }
+        return null;
+    }
 
 }

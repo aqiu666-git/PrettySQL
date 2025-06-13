@@ -17,7 +17,7 @@ PrettySQL 是一款基于 IntelliJ IDEA 的轻量级插件，致力于提升 SQL
 - 一键生成实体类
 - SQL执行计划分析
 
-更多功能，请到[文档中心](http://czh.znunwm.top)的项目主页进行了解。
+更多功能，请到[文档中心]()的项目主页进行了解。
 
 
 ### 2.1 引入PrettySQL插件

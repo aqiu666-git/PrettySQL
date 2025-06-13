@@ -20,6 +20,8 @@ public class DbConfig {
     // 数据库密码
     private String password;
 
+    public DbConfig() {
+    }
     /**
      * 构造方法，初始化数据库配置
      *
