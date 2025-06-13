@@ -26,7 +26,10 @@ PrettySQL 是一款基于 IntelliJ IDEA 的轻量级插件，致力于提升 SQL
 
 1.选择xml文件里的sql语句右键格式化SQL即可
 
-2.鼠标放到要查看表结构的表名称,悬浮等待3秒即可出现
+2.如果自带yml配置文件默认读取这里，如果没有则需要弹窗自行添加
+
+3.鼠标放到要查看表结构的表名称,悬浮等待3秒即可出现
+
 
 <div style="display: flex; gap: 15px; align-items: flex-start;">
   <img src="https://znunwm.top/upload/2025/06/0bd6f2af-fb94-4b1e-bf83-490528dfe017.png" width="230" height="300" />
