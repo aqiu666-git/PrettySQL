@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "com.chen"
-version = "1.2-SNAPSHOT"
+version = "1.3-SNAPSHOT"
 
 repositories {
     maven { url 'https://maven.aliyun.com/repository/central/'}
@@ -32,5 +32,5 @@ tasks.withType(JavaCompile) {
 patchPluginXml {
     //注意这个版本号不能高于上面intellij的version,否则runIde会报错
     sinceBuild = '171'
-    untilBuild = '241.*'
+    untilBuild = '243.*'
 }

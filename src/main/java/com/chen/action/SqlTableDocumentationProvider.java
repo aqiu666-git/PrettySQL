@@ -31,6 +31,7 @@ import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.chen.constant.DbConstant.urlFix;
 import static com.chen.constant.FileConstant.CONFIG_PATH;
 
 /**
@@ -247,7 +248,7 @@ public class SqlTableDocumentationProvider implements DocumentationProvider {
      */
     private static void promptUserInput(Project project, Consumer<DbConfig> callback) {
         ApplicationManager.getApplication().invokeLater(() -> {
-            JTextField urlField = new JTextField("jdbc:mysql://127.0.0.1:3306/db?useSSL=false&useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&useInformationSchema=false");
+            JTextField urlField = new JTextField("jdbc:mysql://127.0.0.1:3306/db");
             JTextField usernameField = new JTextField();
             JPasswordField passwordField = new JPasswordField();
 
@@ -285,7 +286,7 @@ public class SqlTableDocumentationProvider implements DocumentationProvider {
                 }
 
                 if (errorList.isEmpty()) {
-                    callback.accept(new DbConfig(url, username, password));
+                    callback.accept(new DbConfig(url+urlFix, username, password));
                     break;
                 } else {
                     Messages.showErrorDialog(project,
