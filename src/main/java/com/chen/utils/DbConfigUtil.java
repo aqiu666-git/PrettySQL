@@ -311,7 +311,7 @@ public class DbConfigUtil {
             panel.add(passwordField);
 
 
-               JOptionPane.showConfirmDialog(
+               int result = JOptionPane.showConfirmDialog(
                         null,
                         panel,
                         "请输入数据库配置",
@@ -320,6 +320,10 @@ public class DbConfigUtil {
                 );
 
 
+            if (result != JOptionPane.OK_OPTION) {
+                // 用户点击了“取消”或关闭了窗口，直接返回，不继续执行下面的逻辑
+                return;
+            }
                 String url = urlField.getText().trim();
                 String username = usernameField.getText().trim();
                 String password = new String(passwordField.getPassword()).trim();
@@ -365,13 +369,17 @@ public class DbConfigUtil {
             panel.add(new JLabel("密码:"));
             panel.add(passwordField);
 
-            JOptionPane.showConfirmDialog(
+            int result =JOptionPane.showConfirmDialog(
                         null,
                         panel,
                         "请输入数据库配置",
                         JOptionPane.OK_CANCEL_OPTION,
                         JOptionPane.PLAIN_MESSAGE
                 );
+            if (result != JOptionPane.OK_OPTION) {
+                // 用户点击了“取消”或关闭了窗口，直接返回，不继续执行下面的逻辑
+                return;
+            }
                 String url = urlField.getText().trim();
                 String username = usernameField.getText().trim();
                 String password = new String(passwordField.getPassword()).trim();
