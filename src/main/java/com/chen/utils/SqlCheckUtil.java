@@ -1,22 +1,34 @@
 package com.chen.utils;
-
+import com.chen.constant.SqlConstants;
+import com.chen.entity.DbConfig;
 import net.sf.jsqlparser.JSQLParserException;
 import net.sf.jsqlparser.parser.CCJSqlParserUtil;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
+
 /**
- * @author czh
- * @version 1.0
- * @description:
- * @date 2025/6/13 14:30
+ * SQL 语句检查工具类
  */
 public class SqlCheckUtil {
 
-    /**
-     * 检查SQL语法正确性
-     * @param sql 需要检查的SQL
-     * @return null表示无语法错误，否则返回错误信息
-     */
-    public static String checkSyntax(String sql) {
+    public static String checkSQLWithRollback(DbConfig config, String sql) {
+        try (Connection conn = DataSourceManager.getDataSource(config).getConnection();
+             Statement stmt = conn.createStatement()) {
+
+            conn.setAutoCommit(false);
+            stmt.execute(sql);
+            conn.rollback();
+            return null;
+
+        } catch (Exception e) {
+            return SqlConstants.ERROR_SQL_EXECUTE_PREFIX + e.getMessage();
+        }
+    }
+
+    @Deprecated
+    private static String checkSyntaxOnly(String sql) {
         try {
             CCJSqlParserUtil.parse(sql);
             return null;
@@ -25,15 +37,12 @@ public class SqlCheckUtil {
         }
     }
 
-    /**
-     * 检查危险SQL（如未加WHERE的DELETE/UPDATE）
-     * @param sql 需要检查的SQL
-     * @return 错误/警告信息，无问题返回null
-     */
+
     public static String checkDangerous(String sql) {
         String lower = sql.trim().toLowerCase();
-        if ((lower.startsWith("delete") || lower.startsWith("update")) && !lower.contains("where")) {
-            return "警告：检测到未加 WHERE 的 DELETE/UPDATE 语句，可能会影响全表数据！";
+        if ((lower.startsWith(SqlConstants.SQL_DELETE) || lower.startsWith(SqlConstants.SQL_UPDATE))
+                && !lower.contains(SqlConstants.SQL_WHERE)) {
+            return SqlConstants.WARN_UNSAFE_DELETE_UPDATE;
         }
         return null;
     }

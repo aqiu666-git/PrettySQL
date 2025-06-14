@@ -1,5 +1,7 @@
 package com.chen.entity;
 
+import java.util.Objects;
+
 /**
  * 数据库配置信息类
  * 包含数据库的连接地址、用户名和密码
@@ -87,5 +89,18 @@ public class DbConfig {
      */
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DbConfig dbConfig = (DbConfig) o;
+        return Objects.equals(url, dbConfig.url) && Objects.equals(username, dbConfig.username) && Objects.equals(password, dbConfig.password);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(url, username, password);
     }
 }

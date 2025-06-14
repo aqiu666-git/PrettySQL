@@ -15,7 +15,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-import static com.chen.action.SqlTableDocumentationProvider.loadFromCache;
+import static com.chen.utils.DbConfigUtil.loadFromCache;
+
 
 /**
  * SQL 格式化操作类

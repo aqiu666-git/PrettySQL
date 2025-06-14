@@ -33,18 +33,10 @@ public class JdbcTableInfoUtil {
      * @throws ClassNotFoundException 如果 JDBC 驱动未加载
      */
     public static List<ColumnMeta> getTableColumns(DbConfig dbConfig, String tableName) throws Exception {
-        // 加载 MySQL JDBC 驱动
-        Class.forName("com.mysql.cj.jdbc.Driver");
+        try (Connection conn = DataSourceManager.getDataSource(dbConfig).getConnection()) {
 
-        try (Connection conn = DriverManager.getConnection(
-                dbConfig.getUrl(),
-                dbConfig.getUsername(),
-                dbConfig.getPassword())) {
-
-            // 获取数据库元数据
             DatabaseMetaData meta = conn.getMetaData();
 
-            // 解析 catalog（数据库名）
             String catalog = null;
             String url = dbConfig.getUrl();
             if (url != null) {

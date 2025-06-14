@@ -1,5 +1,7 @@
 package com.chen.action;
 
+import com.chen.constant.MessageConstants;
+import com.chen.entity.DbConfig;
 import com.chen.utils.SqlCheckUtil;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
@@ -9,6 +11,10 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Optional;
+
+import static com.chen.utils.DbConfigUtil.*;
+import static com.chen.utils.JdbcTableInfoUtil.testConnection;
 
 /**
  * @author czh
@@ -24,7 +30,9 @@ public class CheckSqlAction extends AnAction {
         Editor editor = e.getData(com.intellij.openapi.actionSystem.CommonDataKeys.EDITOR);
 
         if (editor == null) {
-            Messages.showWarningDialog(project, "请在编辑器中选中或输入SQL语句", "SQL检查");
+            Messages.showWarningDialog(project,
+                    MessageConstants.SQL_WARNING_EDITOR_EMPTY,
+                    MessageConstants.SQL_CHECK_TITLE);
             return;
         }
 
@@ -35,24 +43,54 @@ public class CheckSqlAction extends AnAction {
         }
 
         if (sql == null || sql.trim().isEmpty()) {
-            Messages.showWarningDialog(project, "未检测到SQL语句", "SQL检查");
+            Messages.showWarningDialog(project,
+                    MessageConstants.SQL_WARNING_SQL_EMPTY,
+                    MessageConstants.SQL_CHECK_TITLE);
             return;
         }
 
+        Optional<DbConfig> dbConfigOpt = Optional.ofNullable(loadFromCache(e.getProject()))
+                .or(() -> Optional.ofNullable(tryLoadDbConfig(e.getProject())))
+                .or(() -> Optional.ofNullable(promptUserInputSync(e.getProject())));
+
+        if (!dbConfigOpt.isPresent()) {
+            Messages.showErrorDialog(e.getProject(),
+                    MessageConstants.SQL_ERROR_NO_DB_CONFIG,
+                    MessageConstants.SQL_ERROR_TITLE);
+            return;
+        }
+
+        DbConfig dbConfig = dbConfigOpt.get();
+
+        if (!testConnection(dbConfig)) {
+            Messages.showErrorDialog(e.getProject(),
+                    MessageConstants.SQL_ERROR_CONNECTION_FAIL,
+                    MessageConstants.SQL_ERROR_TITLE_CONNECTION_FAIL);
+            return;
+        }
+
+        saveToCache(e.getProject(), dbConfig);
+
         // 语法检查
-        String syntaxResult = SqlCheckUtil.checkSyntax(sql);
+        String syntaxResult = SqlCheckUtil.checkSQLWithRollback(dbConfig, sql);
         if (syntaxResult != null) {
-            Messages.showErrorDialog(project, syntaxResult, "SQL语法检查");
+            Messages.showErrorDialog(project,
+                    syntaxResult,
+                    MessageConstants.SQL_ERROR_SYNTAX);
             return;
         }
 
         // 危险SQL检查
         String dangerResult = SqlCheckUtil.checkDangerous(sql);
         if (dangerResult != null) {
-            Messages.showWarningDialog(project, dangerResult, "SQL危险检测");
+            Messages.showWarningDialog(project,
+                    dangerResult,
+                    MessageConstants.SQL_WARNING_DANGER);
             return;
         }
 
-        Messages.showInfoMessage(project, "SQL语句语法正确", "SQL检查");
+        Messages.showInfoMessage(project,
+                MessageConstants.SQL_SUCCESS,
+                MessageConstants.SQL_SUCCESS_TITLE);
     }
 }
