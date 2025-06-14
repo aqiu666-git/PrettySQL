@@ -50,10 +50,7 @@ PrettySQL 是一款基于 IntelliJ IDEA 的轻量级插件，致力于提升 SQL
 </div>
 
 
-# 作者信息
 
-- 作者：陈思源(WP)
-- 就点点🌟 Star 🌟 关注更新，支持下作者就可以了
 
 
 
