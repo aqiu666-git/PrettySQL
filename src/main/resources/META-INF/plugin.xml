@@ -42,6 +42,37 @@ PrettySQL is an IntelliJ plugin that beautifies and formats SQL queries automati
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
             <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt G"/>
         </action>
+
+
+        <!-- 定义一级菜单（菜单组），放到右键菜单 -->
+        <group id="DbConfigRootGroup"
+               text="数据库配置"
+               description="数据库相关操作"
+               popup="true">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </group>
+
+
+        <action id="DbConfigAddAction"
+                class="com.chen.action.DbConfigAddAction"
+                text="新增数据源"
+                description="新增数据库连接配置">
+            <add-to-group group-id="DbConfigRootGroup" anchor="first"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt N"/>
+        </action>
+
+
+        <action id="DbConfigManageAction"
+                class="com.chen.action.DbConfigManageAction"
+                text="配置数据源"
+                description="管理已保存的数据源配置">
+            <add-to-group group-id="DbConfigRootGroup" anchor="last"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt M"/>
+        </action>
+
+
+
+
     </actions>
 
 </idea-plugin>

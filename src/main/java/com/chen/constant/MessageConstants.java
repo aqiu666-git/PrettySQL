@@ -22,6 +22,7 @@ public class MessageConstants {
     public static final String CONFIG_SAVE_SUCCESS_MESSAGE_SUFFIX = "\n请重新将鼠标悬停以查看表结构。";
     public static final String CONFIG_SAVE_SUCCESS_TITLE = "配置成功";
     public static final String ERROR_PREFIX = "<b>异常信息：</b> ";
+    public static final String DATASOURCE = "当前数据源:";
     public static final String ERROR_NO_COLUMNS = "<br>未在数据库中找到该表结构或表无字段。";
     public static final String CONFIG_SAVE_FAIL_PREFIX = "保存配置失败：";
     public static final String CONFIG_SAVE_FAIL_TITLE = "保存错误";

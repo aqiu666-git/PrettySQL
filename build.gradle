@@ -13,6 +13,9 @@ repositories {
     maven { url 'https://maven.aliyun.com/repository/google/' }
     maven { url 'https://maven.aliyun.com/repository/jcenter/'}
     maven { url 'https://maven.aliyun.com/repository/gradle-plugin'}
+    flatDir {
+        dirs 'libs'
+    }
 }
 dependencies {
     implementation("com.github.vertical-blank:sql-formatter:2.0.3")
@@ -20,6 +23,7 @@ dependencies {
     implementation 'mysql:mysql-connector-java:8.0.33'
     implementation 'com.zaxxer:HikariCP:5.1.0'
     implementation 'com.github.jsqlparser:jsqlparser:4.9'
+    implementation 'com.oracle:ojdbc6:11.2.0.4'
 }
 intellij {
     version = '2024.1.4'

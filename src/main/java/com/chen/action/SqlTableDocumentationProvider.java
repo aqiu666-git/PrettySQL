@@ -61,17 +61,15 @@ public class SqlTableDocumentationProvider implements DocumentationProvider {
             });
         }
 
-
-
         List<ColumnMeta> columns;
         try {
             columns = JdbcTableInfoUtil.getTableColumns(dbConfig, tableName);
         } catch (Exception e) {
-            return ERROR_PREFIX  + tableName + e.getMessage();
+            return ERROR_PREFIX  + tableName +DATASOURCE+dbConfig.getUrl()+  e.getMessage();
         }
 
         if (columns == null || columns.isEmpty()) {
-            return ERROR_PREFIX  + tableName + ERROR_NO_COLUMNS;
+            return ERROR_PREFIX +tableName +DATASOURCE+dbConfig.getUrl()+  ERROR_NO_COLUMNS;
         }
 
         return buildHtmlTable(tableName, columns);

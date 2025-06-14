@@ -9,5 +9,6 @@ package com.chen.constant;
 public class FileConstant {
 
     public static final String CONFIG_PATH  = ".idea/db-config.json";
+    public static final String CONFIG_PATH_ALL  = ".idea/db-all.json";
 
 }
