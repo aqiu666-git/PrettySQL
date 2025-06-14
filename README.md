@@ -1,7 +1,7 @@
 # PrettySQL多功能插件
 
 
-# [文档中心]()
+# [文档中心](http://czh.znunwm.top/)
 ### 介绍
 PrettySQL 是一款基于 IntelliJ IDEA 的轻量级插件，致力于提升 SQL 开发体验，集成了 SQL 格式美化、高亮表结构提示、数据库文档快速查看等功能，为日常开发中频繁处理 SQL 的用户提供便捷、清晰、可视化的开发辅助。
 
@@ -17,7 +17,7 @@ PrettySQL 是一款基于 IntelliJ IDEA 的轻量级插件，致力于提升 SQL
 - SQL语法检查
 - SQL执行计划分析
 
-更多功能，请到[文档中心]()的项目主页进行了解。
+更多功能，请到[文档中心](http://czh.znunwm.top/)的项目主页进行了解。
 
 
 ### 2.1 引入PrettySQL插件(暂时只支持IntelliJ IDEA 2024.1.4之前版本)
