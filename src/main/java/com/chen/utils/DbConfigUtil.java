@@ -310,8 +310,8 @@ public class DbConfigUtil {
             panel.add(new JLabel("密码:"));
             panel.add(passwordField);
 
-            while (true) {
-                int result = JOptionPane.showConfirmDialog(
+
+               JOptionPane.showConfirmDialog(
                         null,
                         panel,
                         "请输入数据库配置",
@@ -319,9 +319,6 @@ public class DbConfigUtil {
                         JOptionPane.PLAIN_MESSAGE
                 );
 
-                if (result != JOptionPane.OK_OPTION) {
-                    break;
-                }
 
                 String url = urlField.getText().trim();
                 String username = usernameField.getText().trim();
@@ -343,13 +340,12 @@ public class DbConfigUtil {
                     callback.accept(new DbConfig(url, username, password));
                     saveToCache(project, new DbConfig(url, username, password));
                     saveToCacheAppend(project, new DbConfig(url, username, password));
-                    break;
                 } else {
                     Messages.showErrorDialog(project,
                             "以下字段不能为空：\n" + String.join("、", errorList),
                             "输入不完整");
                 }
-            }
+
         });
     }
 
@@ -369,19 +365,13 @@ public class DbConfigUtil {
             panel.add(new JLabel("密码:"));
             panel.add(passwordField);
 
-            while (true) {
-                int result = JOptionPane.showConfirmDialog(
+            JOptionPane.showConfirmDialog(
                         null,
                         panel,
                         "请输入数据库配置",
                         JOptionPane.OK_CANCEL_OPTION,
                         JOptionPane.PLAIN_MESSAGE
                 );
-
-                if (result != JOptionPane.OK_OPTION) {
-                    break;
-                }
-
                 String url = urlField.getText().trim();
                 String username = usernameField.getText().trim();
                 String password = new String(passwordField.getPassword()).trim();
@@ -402,13 +392,12 @@ public class DbConfigUtil {
                     callback.accept(new DbConfig(url, username, password));
                     saveToCache(project, new DbConfig(url, username, password));
                     saveToCacheAppend(project, new DbConfig(url, username, password));
-                    break;
                 } else {
                     Messages.showErrorDialog(project,
                             "以下字段不能为空：\n" + String.join("、", errorList),
                             "输入不完整");
                 }
-            }
+
         });
     }
 
@@ -497,7 +486,6 @@ public class DbConfigUtil {
 
             // 配置有变化，先测试连接
             if (config!=null && !JdbcTableInfoUtil.testConnection(config)) {
-                Messages.showErrorDialog(project, SQL_ERROR_CONNECTION_FAIL, SQL_ERROR_TITLE_CONNECTION_FAIL);
                 return false;
             }
 
@@ -535,7 +523,6 @@ public class DbConfigUtil {
 
             // 测试新配置连接
             if (!JdbcTableInfoUtil.testConnection(newConfig)) {
-                Messages.showErrorDialog(project, SQL_ERROR_CONNECTION_FAIL, SQL_ERROR_TITLE_CONNECTION_FAIL);
                 return false;
             }
 
