@@ -34,6 +34,8 @@ PrettySQL 是一款基于 IntelliJ IDEA 的轻量级插件，致力于提升 SQL
 <div style="display: flex; gap: 15px; align-items: flex-start;">
   <img src="https://znunwm.top/upload/2025/06/0bd6f2af-fb94-4b1e-bf83-490528dfe017.png" width="230" height="300" />
   <img src="https://znunwm.top/upload/2025/06/b66187c2-df51-45d8-84ce-4e83d997c65f.png" width="230" height="300" />
+  <img src="https://znunwm.top/upload/2025/06/9fe99aa3-16c2-4bf5-9db0-59c2a3abda2b.png" width="230" height="300" />
+  <img src="https://znunwm.top/upload/2025/06/b66187c2-df51-45d8-84ce-4e83d997c65f.png" width="230" height="300" />
 </div>
 
 
