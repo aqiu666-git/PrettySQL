@@ -26,6 +26,8 @@ import static com.chen.utils.JdbcTableInfoUtil.testConnection;
 public class CheckSqlAction extends AnAction {
     @Override
     public void actionPerformed(@NotNull AnActionEvent e) {
+
+
         Project project = e.getProject();
         Editor editor = e.getData(com.intellij.openapi.actionSystem.CommonDataKeys.EDITOR);
 
